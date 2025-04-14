@@ -97,11 +97,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    SysVentasJPCTheme(
-        darkTheme = false,
-        dynamicColor = false,
-        colorScheme = LightRedColors // o el color que quieras
-    )
+    SysVentasJPCTheme(colorScheme = LightRedColors )
      {
         Greeting("Android")
     }
