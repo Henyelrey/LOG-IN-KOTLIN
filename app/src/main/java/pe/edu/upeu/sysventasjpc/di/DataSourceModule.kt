@@ -5,6 +5,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import pe.edu.upeu.sysventasjpc.data.remote.RestCategoria
+import pe.edu.upeu.sysventasjpc.data.remote.RestMarca
+import pe.edu.upeu.sysventasjpc.data.remote.RestProducto
+import pe.edu.upeu.sysventasjpc.data.remote.RestUnidadMedida
 import pe.edu.upeu.sysventasjpc.data.remote.RestUsuario
 import pe.edu.upeu.sysventasjpc.utils.TokenUtils
 import retrofit2.Retrofit
@@ -16,22 +20,24 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DataSourceModule {
-    var retrofit: Retrofit?=null
+    var retrofit: Retrofit? = null
+
     @Singleton
     @Provides
     @Named("BaseUrl")
-    fun provideBaseUrl()= TokenUtils.API_URL
+    fun provideBaseUrl() = TokenUtils.API_URL
+
     @Singleton
     @Provides
-    fun provideRetrofit(@Named("BaseUrl") baseUrl:String):
+    fun provideRetrofit(@Named("BaseUrl") baseUrl: String):
             Retrofit {
-        val okHttpClient= OkHttpClient.Builder()
+        val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .build()
-        if (retrofit==null){
-            retrofit= Retrofit.Builder()
+        if (retrofit == null) {
+            retrofit = Retrofit.Builder()
 
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
@@ -39,9 +45,34 @@ class DataSourceModule {
         }
         return retrofit!!
     }
+
     @Singleton
     @Provides
-    fun restUsuario(retrofit: Retrofit): RestUsuario{
+    fun restUsuario(retrofit: Retrofit): RestUsuario {
         return retrofit.create(RestUsuario::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun restProducto(retrofit: Retrofit): RestProducto {
+        return retrofit.create(RestProducto::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun restMarca(retrofit: Retrofit): RestMarca {
+        return retrofit.create(RestMarca::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun restCategoria(retrofit: Retrofit): RestCategoria {
+        return retrofit.create(RestCategoria::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun restUnidadMedida(retrofit: Retrofit): RestUnidadMedida {
+        return retrofit.create(RestUnidadMedida::class.java)
     }
 }
